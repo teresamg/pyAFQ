@@ -128,6 +128,7 @@ class GroupAFQ(object):
         if not op.exists(bids_path):
             raise ValueError("bids_path not found")
         if not op.exists(op.join(bids_path, "dataset_description.json")):
+
             raise ValueError("There must be a dataset_description.json"
                              + " in bids_path")
         if not isinstance(bids_filters, dict):
@@ -194,7 +195,16 @@ class GroupAFQ(object):
             "PipelineDescription": {"Name": "pyAFQ",
                                     "Version": pyafq_version},
             "GeneratedBy": [{"Name": op.basename(self.afq_path),
-                             "Version": pyafq_version}]}
+                             "Version": pyafq_version}],
+            "Parameters": {"bids_path": bids_path,
+                           "bids_filters": bids_filters,
+                           "preproc_pipeline": preproc_pipeline,
+                           "participant_labels": participant_labels,
+                           "output_dir": output_dir,
+                           "parallel_params": parallel_params,
+                           "bids_layout_kwargs": bids_layout_kwargs,
+                           "kwargs": kwargs}
+        }
 
         pl_desc_file = op.join(self.afq_path, 'dataset_description.json')
 
